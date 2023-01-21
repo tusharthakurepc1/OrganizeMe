@@ -1,5 +1,18 @@
+
+
 Doc v1.0.0
 
 
-by Tushar Manasvi and Tejasvi.
+Git Commands:
 
+
+git init
+git log
+git add .
+git commit -m "comment"
+
+git branch -M master
+git remote add origin -----repo url------
+
+git push -u origin master				//For Push.
+git pull -u orgin master				//For Pull.
