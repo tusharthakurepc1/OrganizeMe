@@ -1,12 +1,10 @@
-
-
 Doc v1.0.0
 
 
 Git Commands:
 
 
-git init
+git init							//For Initialize.
 git log
 git add .
 git commit -m "comment"
