@@ -13,4 +13,4 @@ git branch -M master
 git remote add origin -----repo url------
 
 git push -u origin master				//For Push.
-git pull -u orgin master				//For Pull.
+git pull orgin master					//For Pull.
