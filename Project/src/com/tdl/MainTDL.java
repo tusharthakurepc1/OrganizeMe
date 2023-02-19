@@ -5,11 +5,15 @@ import com.tdl.*;
 
 public class MainTDL {
     public static void main(String[] args) {
-//        System.out.println("Hello");
-//        Test_DB.try_meth();
-        LoginGui o1=new LoginGui();
-//        o1.init_Login();
-        o1.init_Signup();
+        System.out.println("Main TDL");
+
+//        LoginGui gui=new LoginGui();
+//        gui.init_Signup();
+//        gui.init_Login();
+
+//        Client c1=new Client("User"," ","001",10,"_","+91 xxxxxxxxxx","user123","123");
+//        Task t1=new Task(c1,"Task1","Wake Up 7.00 AM","Imp");
+//        t1.displayDetails();
     }
 }
 
