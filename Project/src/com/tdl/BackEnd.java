@@ -24,7 +24,7 @@ class DataBaseOperation{
             Class.forName("com.mysql.jdbc.Driver");
             con= DriverManager.getConnection("jdbc:mysql://localhost:3306/tdl_db","root","epc205");
             System.out.println("Connection Open");
-//            con.close();
+
         }catch(Exception e){
             System.out.println("Connection Exception.");
         }
