@@ -16,19 +16,3 @@ public class MainTDL {
 //        t1.displayDetails();
     }
 }
-
-class Test_DB{
-    public static void try_meth(){
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con= DriverManager.getConnection("jdbc:mysql://localhost:3306/java_projects","root","epc205");
-            System.out.println("Connection Open");
-            con.close();
-        }catch(Exception e){
-            System.out.println("Exception.");
-            System.out.println(e);
-        }
-    }
-
-
-}

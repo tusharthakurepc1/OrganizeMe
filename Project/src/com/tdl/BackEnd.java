@@ -1,9 +1,95 @@
 package com.tdl;
 
+import java.sql.*;
+
 public class BackEnd {
+
     public static void main(String[] args) {
-        System.out.println("Backend Main");
+
+//        Client c1=new Client("User"," ","001",10,"_","+91 xxxxxxxxxx","user123","123");
+//
+//        Task t1=new Task(c1,"Task1","Wake Up 7.00 AM","Imp");
+//        t1.displayDetails();
+
+//        DataBaseOperation.writeClientData(c1);
+        DataBaseOperation.readAllClientData();
+
     }
+}
+
+class DataBaseOperation{
+    public static Connection createConn(){
+        Connection con=null;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            con= DriverManager.getConnection("jdbc:mysql://localhost:3306/tdl_db","root","epc205");
+            System.out.println("Connection Open");
+//            con.close();
+        }catch(Exception e){
+            System.out.println("Connection Exception.");
+        }
+        return con;
+    }
+
+    public static void writeClientData(Client obj){
+        Connection con=DataBaseOperation.createConn();
+        try{
+            String query="insert into Client_Details(f_name,m_name,l_name,age,gender,phone_number,username,pass) values(?,?,?,?,?,?,?,?);";
+            PreparedStatement ps_query_insert=con.prepareStatement(query);
+            ps_query_insert.setString(1,obj.f_name);
+            ps_query_insert.setString(2,obj.m_name);
+            ps_query_insert.setString(3,obj.l_name);
+            ps_query_insert.setInt(4,obj.age);
+            ps_query_insert.setString(5,obj.gender);
+            ps_query_insert.setString(6,obj.phone_num);
+            ps_query_insert.setString(7, obj.username);
+            ps_query_insert.setString(8, obj.pass);
+
+            ps_query_insert.executeUpdate();
+            System.out.println("Account Inserted.");
+            con.close();
+            System.out.println("Connection closed rw");
+
+        }catch(Exception e){
+            System.out.println("Exception while Inserting Data.");
+            System.out.println(e);
+        }
+    }
+
+    public static void readAllClientData(){
+        Connection con=DataBaseOperation.createConn();
+        Statement statement=null;
+        boolean flag=true;
+        try{
+            String query="select *from Client_Details;";
+            statement=con.createStatement();
+            ResultSet data_set=statement.executeQuery(query);
+
+            while(data_set.next()){
+                System.out.print(data_set.getString(1)+"  ");
+                System.out.print(data_set.getString(2)+"  ");
+                System.out.print(data_set.getString(3)+"  ");
+                System.out.print(data_set.getString(4)+"  ");
+                System.out.print(data_set.getInt(5)+"  ");
+                System.out.print(data_set.getString(6)+"  ");
+                System.out.print(data_set.getString(7)+"  ");
+                System.out.print(data_set.getString(8)+"  ");
+                System.out.print(data_set.getString(9)+"  ");
+
+                flag=false;
+                System.out.println("----------------");
+            }
+            if(flag){
+                System.out.println("Empty Set No Data.");
+            }
+            con.close();
+            System.out.println("Connection Closed rd.");
+        }catch(Exception e){
+            System.out.println("Can't Read Data Exception.");
+            System.out.println(e);
+        }
+    }
+
 }
 
 class Client{
@@ -35,6 +121,7 @@ class Task extends Client{
     int task_id;
     String t_title,t_desc;
     String t_flag;
+
     Task(){
         task_id=0;
         t_title=""; t_desc="";  t_flag="";
