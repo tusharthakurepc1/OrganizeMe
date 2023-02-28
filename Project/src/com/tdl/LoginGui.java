@@ -3,6 +3,7 @@ package com.tdl;
 import javax.swing.*;
 //import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.Font;
 
 /*
 Gui Resolution    800x620.
@@ -200,20 +201,25 @@ Submit Button
         container_left.setBackground(Color.decode("#B8C7F4"));
 
         JLabel name=new JLabel("Manasvi Kumar Thakur");
-        name.setBounds(20,7,200,60);
+        name.setBounds(20,7,280,80);
         name.setBackground(Color.black);
+        name.setFont(new Font("Verdana", Font.BOLD, 17));
+        name.setHorizontalAlignment(SwingConstants.RIGHT);
         jfrm_home.add(name);
 
         JLabel email=new JLabel("manasvikumar108@gmail.com");
-        email.setBounds(20,14,200,80);
-        email.setBackground(Color.white);
+        email.setBounds(20,25,250,80);
+        email.setBackground(Color.BLACK);
+        email.setForeground(Color.GRAY);
+        email.setFont(new Font("Rockwell", Font.PLAIN, 12));
+        email.setHorizontalAlignment(SwingConstants.RIGHT);
         jfrm_home.add(email);
 
         JButton Home;
         Home=new JButton("Home");
         Home.setBackground(Color.decode("#E6E6FA"));
         Home.setForeground(Color.BLACK);
-        Home.setBounds(20,80,280,40);
+        Home.setBounds(20,100,280,40);
         Home.setHorizontalAlignment(SwingConstants.LEFT);
         jfrm_home.add(Home);
 
@@ -221,7 +227,7 @@ Submit Button
         Tasks=new JButton("Tasks");
         Tasks.setBackground(Color.decode("#E6E6FA"));
         Tasks.setForeground(Color.BLACK);
-        Tasks.setBounds(20,130,280,40);
+        Tasks.setBounds(20,150,280,40);
         Tasks.setHorizontalAlignment(SwingConstants.LEFT);
         jfrm_home.add(Tasks);
 
@@ -229,7 +235,7 @@ Submit Button
         Important=new JButton("Important");
         Important.setBackground(Color.decode("#E6E6FA"));
         Important.setForeground(Color.BLACK);
-        Important.setBounds(20,180,280,40);
+        Important.setBounds(20,200,280,40);
         Important.setHorizontalAlignment(SwingConstants.LEFT);
         jfrm_home.add(Important);
 
@@ -237,7 +243,7 @@ Submit Button
         Planned=new JButton("Planned");
         Planned.setBackground(Color.decode("#E6E6FA"));
         Planned.setForeground(Color.BLACK);
-        Planned.setBounds(20,230,280,40);
+        Planned.setBounds(20,250,280,40);
         Planned.setHorizontalAlignment(SwingConstants.LEFT);
         jfrm_home.add(Planned);
 
@@ -245,7 +251,7 @@ Submit Button
         Groceries=new JButton("Groceries");
         Groceries.setBackground(Color.decode("#E6E6FA"));
         Groceries.setForeground(Color.BLACK);
-        Groceries.setBounds(20,280,280,40);
+        Groceries.setBounds(20,300,280,40);
         Groceries.setHorizontalAlignment(SwingConstants.LEFT);
         jfrm_home.add(Groceries);
 
@@ -253,7 +259,7 @@ Submit Button
         Settings=new JButton("Settings");
         Settings.setBackground(Color.decode("#E6E6FA"));
         Settings.setForeground(Color.BLACK);
-        Settings.setBounds(20,330,280,40);
+        Settings.setBounds(20,350,280,40);
         Settings.setHorizontalAlignment(SwingConstants.LEFT);
         jfrm_home.add(Settings);
 
