@@ -7,12 +7,9 @@ public class BackEnd {
     public static void main(String[] args) {
 
 //        Client c1=new Client("User"," ","001",10,"_","+91 xxxxxxxxxx","user123","123");
-//
-//        Task t1=new Task(c1,"Task1","Wake Up 7.00 AM","Imp");
-//        t1.displayDetails();
+//        Task t1=new Task("Task 1","Testing the query jdbc","IMP");
 
-//        DataBaseOperation.writeClientData(c1);
-        DataBaseOperation.readAllClientData();
+        System.out.println(DataBaseOperation.readUserPass("use123","12"));
 
     }
 }
@@ -31,6 +28,7 @@ class DataBaseOperation{
         return con;
     }
 
+//    Write the Client Details in the DB
     public static void writeClientData(Client obj){
         Connection con=DataBaseOperation.createConn();
         try{
@@ -56,6 +54,29 @@ class DataBaseOperation{
         }
     }
 
+//    Write the Task in the DB
+    public static void writeTaskData(Task t){
+        Connection con=createConn();
+        try{
+            String query="insert into task_details(c_id,title,t_desc,flag) values(?,?,?,?);";
+            PreparedStatement ps_query_insert=con.prepareStatement(query);
+            ps_query_insert.setInt(1,10);
+            ps_query_insert.setString(2,t.t_title);
+            ps_query_insert.setString(3,t.t_desc);
+            ps_query_insert.setString(4,t.t_flag);
+
+            ps_query_insert.executeUpdate();
+            System.out.println("Write Task Data");
+            con.close();
+            System.out.println("Connection close wt");
+
+        }catch(Exception e){
+//            System.out.println(e);
+            System.out.println("Write Task Error    !!Client Not Exist!!  with c_id: "+t.client_id);
+        }
+    }
+
+//    Read all the client from the DB
     public static void readAllClientData(){
         Connection con=DataBaseOperation.createConn();
         Statement statement=null;
@@ -90,6 +111,32 @@ class DataBaseOperation{
         }
     }
 
+    public static boolean readUserPass(String username,String pass){
+//        boolean flag=false;
+        Statement statement=null;
+        Connection con=createConn();
+        try{
+            String query="select username,pass from client_details;";
+            statement=con.createStatement();
+            ResultSet rs=statement.executeQuery(query);
+
+            while(rs.next()){
+//                System.out.println("User: "+rs.getString(1)+" "+rs.getString(2));
+                if(rs.getString(1).equals(username) && rs.getString(2).equals(pass))
+                    return true;
+            }
+
+
+        }catch(Exception e){
+//            System.out.println(e);
+            System.out.println("Can't Read Data Exception.");
+        }
+
+
+
+        return false;
+    }
+
 }
 
 class Client{
@@ -112,7 +159,8 @@ class Client{
     }
 
     protected void displayDetails(){
-        System.out.println(client_id+" "+f_name+" "+m_name+" "+l_name+" is of "+age+"\n"+gender+" "+phone_num+"\n"+username+" "+pass);
+        System.out.println();
+        System.out.println(client_id+" | "+f_name+" | "+m_name+" | "+l_name+" | "+age+" | "+gender+" | "+phone_num+" | "+username+" | "+pass);
     }
 }
 
@@ -120,11 +168,17 @@ class Task extends Client{
     //    int c_id_derived;
     int task_id;
     String t_title,t_desc;
-    String t_flag;
+    String t_flag;              // IMP,HOME,STAR,DGC, etc
 
     Task(){
         task_id=0;
         t_title=""; t_desc="";  t_flag="";
+    }
+
+    Task(String t_title,String t_desc,String t_flag){
+        this.t_title=t_title;
+        this.t_desc=t_desc;
+        this.t_flag=t_flag;
     }
 
     Task(Client c){

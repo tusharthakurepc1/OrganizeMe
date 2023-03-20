@@ -11,6 +11,7 @@ git commit -m "comment"
 
 git branch -M master
 git remote add origin -----repo url------
+git reset --hard						//Reset to the previous Push Ver.
 
 git push -u origin master				//For Push.
 git pull orgin master					//For Pull.
