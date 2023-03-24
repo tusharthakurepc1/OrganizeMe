@@ -3,6 +3,7 @@ package com.tdl;
 import com.mysql.cj.log.Log;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 //import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.Font;
@@ -50,7 +51,7 @@ public class LoginGui {
                 e->{
                     LoginGui o1=new LoginGui();
                     o1.init_Signup();
-                    jfrm_login.setVisible(false);
+                    jfrm_login.dispose();
                 }
         );
 
@@ -105,7 +106,9 @@ public class LoginGui {
                     else{
                         if(DataBaseOperation.readUserPass(username_lbl.getText(),password_lbl.getText())){
                             alert_tf.setVisible(false);
-                            System.out.println("Sucessfully Login");
+//                            Make notification to greet successful login.
+                            GUI_T o1=new GUI_T();
+                            o1.notifyAlert("Login Sucessfully","None");
                         }
                         else{
 //                            System.out.println("Invalid Username or pass");
@@ -165,7 +168,7 @@ public class LoginGui {
                 e->{
                     LoginGui o1=new LoginGui();
                     o1.init_Login();
-                    jfrm_signup.setVisible(false);
+                    jfrm_signup.dispose();
                 }
         );
 
@@ -346,9 +349,12 @@ Submit Button
                     else
                         gender=genderOtherRb.getText();
                     Client obj_pass=new Client(f_name_tf.getText(),m_name_tf.getText(),l_name_tf.getText(),Integer.parseInt(age_tf.getText()),gender,phone_num_tf.getText(),username_set_tf.getText(),password_set_tf.getText());
-
-                    obj_pass.displayDetails();
-
+                    DataBaseOperation.writeClientData(obj_pass);
+//                    obj_pass.displayDetails();
+                    GUI_T o1=new GUI_T();
+                    o1.notifyAlert("Account Created Successfully","None");
+                    init_Login();
+                    jfrm_signup.dispose();
                 }
         );
 
@@ -360,5 +366,6 @@ Submit Button
     }
 
 }
+
 
 

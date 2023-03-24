@@ -15,3 +15,10 @@ git reset --hard						//Reset to the previous Push Ver.
 
 git push -u origin master				//For Push.
 git pull orgin master					//For Pull.
+
+
+
+//Forcefully pull
+git fetch
+git reset --hard HEAD
+git merge origin/master	
