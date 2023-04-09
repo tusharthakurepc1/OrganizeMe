@@ -15,15 +15,17 @@ Gui Resolution    800x620.
  */
 
 public class LoginGui {
+    static boolean login_status=false;
 
     public void init_Login(){
-        JLabel username_disp, password_disp, alert_tf;
-        JTextField username_lbl, password_lbl;
+        JLabel id_disp, password_disp, alert_tf;
+        JTextField id_lbl, password_lbl;
         JButton signin_btn, signup_btn, signin_submit_btn;
 
 
         JFrame jfrm_login=new JFrame("Login");
         jfrm_login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jfrm_login.setResizable(false);
         jfrm_login.setSize(800,620);
 
         JLabel container=new JLabel();
@@ -56,15 +58,15 @@ public class LoginGui {
         );
 
 
-        username_disp=new JLabel("Username");
-        username_disp.setBounds(270,200,100,20);
-        username_disp.setForeground(Color.WHITE);
-        jfrm_login.add(username_disp);
+        id_disp=new JLabel("ID Number");
+        id_disp.setBounds(270,200,100,20);
+        id_disp.setForeground(Color.WHITE);
+        jfrm_login.add(id_disp);
 
 
-        username_lbl=new JTextField();
-        username_lbl.setBounds(270,220,260,40);
-        jfrm_login.add(username_lbl);
+        id_lbl=new JTextField();
+        id_lbl.setBounds(270,220,260,40);
+        jfrm_login.add(id_lbl);
 
 
         password_disp=new JLabel("Password");
@@ -93,7 +95,7 @@ public class LoginGui {
 
         signin_submit_btn.addActionListener(
                 e->{
-                    if(username_lbl.getText().equals("")){
+                    if(id_lbl.getText().equals("")){
                         alert_tf.setText("!!User Name!!");
                         alert_tf.setVisible(true);
                         return;
@@ -104,19 +106,29 @@ public class LoginGui {
                         return;
                     }
                     else{
-                        if(DataBaseOperation.readUserPass(username_lbl.getText(),password_lbl.getText())){
+                        int temp_id=0;
+                        try {
+                            temp_id = Integer.parseInt(id_lbl.getText());
+                        }catch(NumberFormatException nfe){
+                            alert_tf.setText("!! Enter the ID Correct !!");
+                            alert_tf.setVisible(true);
+                            return;
+                        }
+
+                        if(DataBaseOperation.readUserPass(temp_id,password_lbl.getText())){
                             alert_tf.setVisible(false);
 //                            Make notification to greet successful login.
                             GUI_T o1=new GUI_T();
-                            o1.notifyAlert("Login Sucessfully","None");
+                            o1.notifyAlert("Login Sucessfully","");
+                            LoginGui.login_status=true;
                         }
                         else{
 //                            System.out.println("Invalid Username or pass");
-                            alert_tf.setText("!!Invalid Username or Password!!");
+                            alert_tf.setText("!! Invalid ID or Password !!");
                             alert_tf.setVisible(true);
                         }
                     }
-//                  System.out.println(username_lbl.getText()+" "+password_lbl.getText());
+//                  System.out.println(id_lbl.getText()+" "+password_lbl.getText());
 
                 }
         );
@@ -140,6 +152,7 @@ public class LoginGui {
 
         JFrame jfrm_signup=new JFrame("Sign Up");
         jfrm_signup.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jfrm_signup.setResizable(false);
         jfrm_signup.setSize(800,620);
 
 

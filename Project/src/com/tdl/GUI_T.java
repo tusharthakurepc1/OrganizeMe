@@ -96,7 +96,7 @@ public class GUI_T {
 
     public void notifyAlert(String msg,String time){
         JFrame jfrm_notify=new JFrame("Notification");
-        jfrm_notify.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jfrm_notify.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         jfrm_notify.setSize(300,200);
         jfrm_notify.setAlwaysOnTop(true);
         jfrm_notify.setResizable(false);
@@ -108,7 +108,7 @@ public class GUI_T {
 //        Set the frame at the bottom right corner.
         jfrm_notify.setLocation((int)width-300,(int)height-250);
 
-        JLabel message=new JLabel("!!"+msg+"!!");
+        JLabel message=new JLabel(msg);
         message.setBounds(35,5,200,100);
         message.setHorizontalAlignment(JLabel.CENTER);
         jfrm_notify.add(message);
