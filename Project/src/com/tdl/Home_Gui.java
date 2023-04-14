@@ -6,10 +6,15 @@ import java.awt.*;
 
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Home_Gui {
 
-    public void homeGUI(){
+    public void homeGUI(int id,String pass){
+
+        Client data= DataBaseOperation.readStampData(id,pass);
+
         JFrame jfrm_home=new JFrame("Home");
         jfrm_home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jfrm_home.setSize(800,620);
@@ -19,7 +24,7 @@ public class Home_Gui {
         container_left.setBounds(10,10,300,560);
         container_left.setBackground(Color.decode("#33334d"));
 
-        JLabel icon=new JLabel("M");
+        JLabel icon=new JLabel(""+data.f_name.charAt(0));
         icon.setBounds(20,25,50,50);
         icon.setForeground(Color.white);
         icon.setOpaque(true);
@@ -30,7 +35,7 @@ public class Home_Gui {
         icon.setBorder(b);
         jfrm_home.add(icon);
 
-        JLabel name=new JLabel("Manasvi Kumar Thakur");
+        JLabel name=new JLabel(data.f_name+" "+data.m_name+" "+data.l_name);
         name.setBounds(20,7,280,80);
         name.setForeground(Color.white);
         name.setBackground(Color.white);
@@ -38,7 +43,7 @@ public class Home_Gui {
         name.setHorizontalAlignment(SwingConstants.RIGHT);
         jfrm_home.add(name);
 
-        JLabel email=new JLabel("manasvikumar108@gmail.com");
+        JLabel email=new JLabel("@"+data.username);
         email.setBounds(20,25,250,80);
         email.setBackground(Color.BLACK);
         email.setForeground(Color.GRAY);
@@ -69,6 +74,13 @@ public class Home_Gui {
         important.setBounds(20,150,280,40);
         important.setHorizontalAlignment(SwingConstants.LEFT);
         jfrm_home.add(important);
+        important.addActionListener(
+                e->{
+                    Important_Gui o1=new Important_Gui();
+                    o1.importantGUI(id, pass);
+                    jfrm_home.dispose();
+                }
+        );
 
         JButton planned;
         planned=new JButton("Planned");
@@ -77,6 +89,13 @@ public class Home_Gui {
         planned.setBounds(20,200,280,40);
         planned.setHorizontalAlignment(SwingConstants.LEFT);
         jfrm_home.add(planned);
+        planned.addActionListener(
+                e->{
+                    Planned_Gui o1=new Planned_Gui();
+                    o1.plannedGUI(id, pass);
+                    jfrm_home.dispose();
+                }
+        );
 
         JButton groceries;
         groceries=new JButton("Groceries");
@@ -85,6 +104,13 @@ public class Home_Gui {
         groceries.setBounds(20,250,280,40);
         groceries.setHorizontalAlignment(SwingConstants.LEFT);
         jfrm_home.add(groceries);
+        groceries.addActionListener(
+                e->{
+                    Groceries_Gui o1=new Groceries_Gui();
+                    o1.groceriesGUI(id,pass);
+                    jfrm_home.dispose();
+                }
+        );
 
         JButton settings;
         settings=new JButton("Settings");
@@ -93,6 +119,14 @@ public class Home_Gui {
         settings.setBounds(20,300,280,40);
         settings.setHorizontalAlignment(SwingConstants.LEFT);
         jfrm_home.add(settings);
+        settings.addActionListener(
+                e->{
+                    GUI_T o1=new GUI_T();
+                    o1.guiSettingFrame(id, pass);
+                    jfrm_home.dispose();
+                }
+        );
+
 
         container_left.setOpaque(true);
         jfrm_home.add(container_left);
@@ -119,6 +153,8 @@ public class Home_Gui {
         dateTime.setBackground(Color.white);
         jfrm_home.add(dateTime);
 
+        scrollData(jfrm_home,id);
+
 
         JTextField add_text_field=new JTextField();
         JButton add_btn=new JButton("ADD");
@@ -133,6 +169,12 @@ public class Home_Gui {
         add_btn.setSize(10,10);
         jfrm_home.add(panel);
 
+        add_btn.addActionListener(
+                e->{
+                    System.out.println("Hello");
+                }
+        );
+
 
         container_right.setOpaque(true);
         jfrm_home.add(container_right);
@@ -142,4 +184,55 @@ public class Home_Gui {
         jfrm_home.setVisible(true);
 
     }
+
+
+
+
+    public void scrollData(JFrame super_fr,int id){
+        JPanel panel_outer=new JPanel();
+        panel_outer.setLayout(new BoxLayout(panel_outer, BoxLayout.Y_AXIS));
+
+        ArrayList<Task> content_task=DataBaseOperation.readTaskData(id);
+
+        for(int i=0;i<content_task.size();i++){
+            JLabel task_title=new JLabel("    "+content_task.get(i).t_title);
+            task_title.setBounds(100, 100, 300, 30);
+            task_title.setFont(new Font("Arial", Font.PLAIN, 20));
+
+            JLabel task_details=new JLabel(content_task.get(i).t_desc);
+            task_details.setBounds(100, 100, 300, 30);
+            task_details.setFont(new Font("Arial", Font.PLAIN, 15));
+
+            JLabel task_time=new JLabel("         "+content_task.get(i).time_of_start+"                     "+content_task.get(i).time_reminder);
+            task_time.setBounds(100,100,300,30);
+            task_time.setFont(new Font("Arial", Font.PLAIN, 10));
+
+            Border blackline = BorderFactory.createLineBorder(Color.black);
+            JPanel panel_inner=new JPanel();
+            panel_inner.setSize(10,10);
+            panel_inner.setLayout(new BoxLayout(panel_inner, BoxLayout.Y_AXIS));
+//            panel_inner.setBackground(Color.BLUE);
+            panel_inner.setBorder(blackline);
+            panel_inner.add(task_title);
+            panel_inner.add(task_details);
+            panel_inner.add(task_time);
+
+            panel_inner.setMaximumSize(new Dimension(400,60));
+
+            panel_outer.setMaximumSize(new Dimension(500,400));
+            panel_outer.add(panel_inner);
+        }
+
+
+
+        JScrollPane jsp=new JScrollPane(panel_outer,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jsp.setBounds(350,120,400,350);
+        jsp.setBackground(Color.BLACK);
+        super_fr.add(jsp);
+    }
+
 }
+
+
+
+

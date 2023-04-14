@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class GUI_T {
 
-    public void guiSettingFrame(){
+    public void guiSettingFrame(int id,String pass){
         JFrame jfrm_set=new JFrame("Settings");
         jfrm_set.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jfrm_set.setSize(800,620);

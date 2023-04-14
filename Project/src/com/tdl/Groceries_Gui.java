@@ -6,14 +6,14 @@ import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Important_Gui {
+public class Groceries_Gui {
 
-    public void importantGUI(int id,String pass){
-        JFrame jfrm_important=new JFrame("Important");
-        jfrm_important.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jfrm_important.setSize(800,620);
-        jfrm_important.setResizable(false);
-        
+    public void groceriesGUI(int id,String pass){
+        JFrame jfrm_groceries=new JFrame("Groceries");
+        jfrm_groceries.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jfrm_groceries.setSize(800,620);
+        jfrm_groceries.setResizable(false);
+
 
         JLabel container_left=new JLabel();
         container_left.setBounds(10,10,300,560);
@@ -28,7 +28,7 @@ public class Important_Gui {
         icon.setHorizontalAlignment(SwingConstants.CENTER);
         Border b = BorderFactory.createLineBorder(Color.darkGray);
         icon.setBorder(b);
-        jfrm_important.add(icon);
+        jfrm_groceries.add(icon);
 
 
         JLabel name=new JLabel("Manasvi Kumar Thakur");
@@ -36,14 +36,14 @@ public class Important_Gui {
         name.setForeground(Color.white);
         name.setFont(new Font("Verdana", Font.BOLD, 17));
         name.setHorizontalAlignment(SwingConstants.RIGHT);
-        jfrm_important.add(name);
+        jfrm_groceries.add(name);
 
         JLabel email=new JLabel("manasvikumar108@gmail.com");
         email.setBounds(20,25,250,80);
         email.setForeground(Color.GRAY);
         email.setFont(new Font("Rockwell", Font.PLAIN, 12));
         email.setHorizontalAlignment(SwingConstants.RIGHT);
-        jfrm_important.add(email);
+        jfrm_groceries.add(email);
 
         JButton home;
         home=new JButton("Home");
@@ -51,12 +51,12 @@ public class Important_Gui {
         home.setForeground(Color.BLACK);
         home.setBounds(20,100,280,40);
         home.setHorizontalAlignment(SwingConstants.LEFT);
-        jfrm_important.add(home);
+        jfrm_groceries.add(home);
         home.addActionListener(
                 e->{
                     Home_Gui o1=new Home_Gui();
-                    o1.homeGUI(id, pass);
-                    jfrm_important.dispose();
+                    o1.homeGUI(id,pass);
+                    jfrm_groceries.dispose();
                 }
         );
 
@@ -74,7 +74,14 @@ public class Important_Gui {
         important.setForeground(Color.BLACK);
         important.setBounds(20,150,280,40);
         important.setHorizontalAlignment(SwingConstants.LEFT);
-        jfrm_important.add(important);
+        jfrm_groceries.add(important);
+        important.addActionListener(
+                e->{
+                    Important_Gui o1=new Important_Gui();
+                    o1.importantGUI(id,pass);
+                    jfrm_groceries.dispose();
+                }
+        );
 
         JButton planned;
         planned=new JButton("Planned");
@@ -82,12 +89,12 @@ public class Important_Gui {
         planned.setForeground(Color.BLACK);
         planned.setBounds(20,200,280,40);
         planned.setHorizontalAlignment(SwingConstants.LEFT);
-        jfrm_important.add(planned);
+        jfrm_groceries.add(planned);
         planned.addActionListener(
                 e->{
                     Planned_Gui o1=new Planned_Gui();
-                    o1.plannedGUI(id, pass);
-                    jfrm_important.dispose();
+                    o1.plannedGUI(id,pass);
+                    jfrm_groceries.dispose();
                 }
         );
 
@@ -97,14 +104,7 @@ public class Important_Gui {
         groceries.setForeground(Color.BLACK);
         groceries.setBounds(20,250,280,40);
         groceries.setHorizontalAlignment(SwingConstants.LEFT);
-        jfrm_important.add(groceries);
-        groceries.addActionListener(
-                e->{
-                    Groceries_Gui o1=new Groceries_Gui();
-                    o1.groceriesGUI(id, pass);
-                    jfrm_important.dispose();
-                }
-        );
+        jfrm_groceries.add(groceries);
 
         JButton settings;
         settings=new JButton("Settings");
@@ -112,30 +112,30 @@ public class Important_Gui {
         settings.setForeground(Color.BLACK);
         settings.setBounds(20,300,280,40);
         settings.setHorizontalAlignment(SwingConstants.LEFT);
-        jfrm_important.add(settings);
+        jfrm_groceries.add(settings);
         settings.addActionListener(
                 e->{
                     GUI_T o1=new GUI_T();
                     o1.guiSettingFrame(id, pass);
-                    jfrm_important.dispose();
+                    jfrm_groceries.dispose();
                 }
         );
 
 
         container_left.setOpaque(true);
-        jfrm_important.add(container_left);
+        jfrm_groceries.add(container_left);
 
         JLabel container_right=new JLabel();
         container_right.setBounds(320,10,450,560);
         container_right.setBackground(Color.decode("#33334d"));
 
-        JLabel imp_label=new JLabel("Important");
+        JLabel imp_label=new JLabel("Groceries");
         imp_label.setBounds(340,7,280,80);
         imp_label.setForeground(Color.white);
         imp_label.setBackground(Color.white);
         imp_label.setFont(new Font("Verdana", Font.PLAIN, 37));
         imp_label.setHorizontalAlignment(SwingConstants.LEFT);
-        jfrm_important.add(imp_label);
+        jfrm_groceries.add(imp_label);
 
 
         JTextField add_text_field=new JTextField();
@@ -149,15 +149,16 @@ public class Important_Gui {
         add_btn.setBackground(Color.black);
         add_btn.setForeground(Color.WHITE);
         add_btn.setSize(10,10);
-        jfrm_important.add(panel);
+        jfrm_groceries.add(panel);
 
 
         container_right.setOpaque(true);
-        jfrm_important.add(container_right);
+        jfrm_groceries.add(container_right);
 
 
-        jfrm_important.setLayout(null);
-        jfrm_important.setVisible(true);
+        jfrm_groceries.setLayout(null);
+        jfrm_groceries.setVisible(true);
 
     }
 }
+

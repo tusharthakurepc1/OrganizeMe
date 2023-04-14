@@ -119,8 +119,12 @@ public class LoginGui {
                             alert_tf.setVisible(false);
 //                            Make notification to greet successful login.
                             GUI_T o1=new GUI_T();
-                            o1.notifyAlert("Login Sucessfully","");
+                            o1.notifyAlert("Login Sucessfully Your ID:" +temp_id,"");
                             LoginGui.login_status=true;
+                            Home_Gui home=new Home_Gui();
+                            int id=Integer.parseInt(id_lbl.getText());
+                            home.homeGUI(id,password_lbl.getText());
+                            jfrm_login.dispose();
                         }
                         else{
 //                            System.out.println("Invalid Username or pass");
