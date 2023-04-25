@@ -15,8 +15,11 @@ public class MainTDL {
         LoginGui o1=new LoginGui();
         o1.init_Login();
 
+//        Groceries_Gui g1=new Groceries_Gui();
+//        g1.groceriesGUI(10000,"epc205");
+
 //        Home_Gui home=new Home_Gui();
-//        home.homeGUI();
+//        home.homeGUI(10000,"epc205");
 
 //        GUI_T o1=new GUI_T();
 //        o1.guiSettingFrame();

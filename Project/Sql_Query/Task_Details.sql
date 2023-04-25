@@ -13,7 +13,7 @@ flag varchar(10),			-- Which type of task Important,Normal,Planned,Groceries
 FOREIGN KEY (c_id)	references Client_Details(c_id)
 );
 
-alter table Client_Details auto_increment=50000;
+alter table task_details auto_increment=50000;
 */
 -- drop table task_details;
 

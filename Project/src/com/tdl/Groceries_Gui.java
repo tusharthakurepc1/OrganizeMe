@@ -5,10 +5,16 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Groceries_Gui {
 
     public void groceriesGUI(int id,String pass){
+
+        AtomicBoolean thread_status= new AtomicBoolean(false);
+        Client data = DataBaseOperation.readStampData(id, pass);
+
         JFrame jfrm_groceries=new JFrame("Groceries");
         jfrm_groceries.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jfrm_groceries.setSize(800,620);
@@ -52,13 +58,7 @@ public class Groceries_Gui {
         home.setBounds(20,100,280,40);
         home.setHorizontalAlignment(SwingConstants.LEFT);
         jfrm_groceries.add(home);
-        home.addActionListener(
-                e->{
-                    Home_Gui o1=new Home_Gui();
-                    o1.homeGUI(id,pass);
-                    jfrm_groceries.dispose();
-                }
-        );
+
 
 //        JButton tasks;
 //        tasks=new JButton("Tasks");
@@ -75,13 +75,7 @@ public class Groceries_Gui {
         important.setBounds(20,150,280,40);
         important.setHorizontalAlignment(SwingConstants.LEFT);
         jfrm_groceries.add(important);
-        important.addActionListener(
-                e->{
-                    Important_Gui o1=new Important_Gui();
-                    o1.importantGUI(id,pass);
-                    jfrm_groceries.dispose();
-                }
-        );
+
 
         JButton planned;
         planned=new JButton("Planned");
@@ -90,13 +84,7 @@ public class Groceries_Gui {
         planned.setBounds(20,200,280,40);
         planned.setHorizontalAlignment(SwingConstants.LEFT);
         jfrm_groceries.add(planned);
-        planned.addActionListener(
-                e->{
-                    Planned_Gui o1=new Planned_Gui();
-                    o1.plannedGUI(id,pass);
-                    jfrm_groceries.dispose();
-                }
-        );
+
 
         JButton groceries;
         groceries=new JButton("Groceries");
@@ -113,13 +101,7 @@ public class Groceries_Gui {
         settings.setBounds(20,300,280,40);
         settings.setHorizontalAlignment(SwingConstants.LEFT);
         jfrm_groceries.add(settings);
-        settings.addActionListener(
-                e->{
-                    GUI_T o1=new GUI_T();
-                    o1.guiSettingFrame(id, pass);
-                    jfrm_groceries.dispose();
-                }
-        );
+
 
 
         container_left.setOpaque(true);
@@ -138,6 +120,18 @@ public class Groceries_Gui {
         jfrm_groceries.add(imp_label);
 
 
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("EEEE, dd MMM YYYY");
+        LocalDateTime now = LocalDateTime.now();
+        JLabel dateTime = new JLabel();
+        dateTime.setText(dtf.format(now));
+        dateTime.setBounds(340, 40, 280, 80);
+        dateTime.setFont(new Font("Verdana", Font.PLAIN, 15));
+        dateTime.setForeground(Color.white);
+        dateTime.setBackground(Color.white);
+        jfrm_groceries.add(dateTime);
+
+
+
         JTextField add_text_field=new JTextField();
         JButton add_btn=new JButton("ADD");
         add_text_field.add(add_btn);
@@ -152,6 +146,128 @@ public class Groceries_Gui {
         jfrm_groceries.add(panel);
 
 
+
+        //Calling the thread Function to update the task which is in the JScrollPane
+        Thread task_update=new Thread(
+                ()->{
+                    JScrollPane jsp;
+                    while(true) {
+                        try {
+                            if(thread_status.get()){
+                                throw new InterruptedException("Swap");
+                            }
+                            jsp = new JScrollPane(scrollData(jfrm_groceries,id), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                            jsp.setBounds(350, 120, 400, 350);
+                            jsp.setBackground(Color.BLACK);
+                            jfrm_groceries.add(jsp);
+
+                            scrollData(jfrm_groceries,id);
+                            System.out.println("scroll call");
+                            Thread.sleep(500);
+                        } catch (Exception e) {
+                            System.out.println("Task Update Exception.");
+                            return;
+                        }
+                    }
+                }
+        );
+        task_update.setPriority(Thread.NORM_PRIORITY);
+        task_update.start();
+
+
+        //Thread to Update the time which is updated on 60 sec.
+        Thread time_update=new Thread(
+                ()->{
+                    DateTimeFormatter dtf_temp;
+                    LocalDateTime now_temp;
+                    while(true) {
+                        try {
+
+                            dtf_temp = DateTimeFormatter.ofPattern("EEEE, dd MMM YYYY");
+                            now_temp = LocalDateTime.now();
+//                            int a=now_temp.getSecond();
+                            dateTime.setText(dtf_temp.format(now_temp));
+
+
+                            Thread.sleep(60000);
+                        } catch (Exception e) {
+                            System.out.println("Task Update Exception.");
+                            return;
+                        }
+                    }
+                }
+        );
+        time_update.start();
+
+
+        home.addActionListener(
+                e->{
+                    Home_Gui o1=new Home_Gui();
+                    o1.homeGUI(id, pass);
+                    jfrm_groceries.dispose();
+                    thread_status.set(true);
+                }
+        );
+
+
+        important.addActionListener(
+                e -> {
+                    Important_Gui o1 = new Important_Gui();
+                    o1.importantGUI(id, pass);
+                    jfrm_groceries.dispose();
+                    thread_status.set(true);
+                }
+        );
+
+        planned.addActionListener(
+                e -> {
+                    Planned_Gui o1 = new Planned_Gui();
+                    o1.plannedGUI(id, pass);
+                    jfrm_groceries.dispose();
+                    thread_status.set(true);
+                }
+        );
+
+        settings.addActionListener(
+                e -> {
+                    GUI_T o1 = new GUI_T();
+                    o1.guiSettingFrame(id, pass);
+                    jfrm_groceries.dispose();
+                    thread_status.set(true);
+                }
+        );
+
+
+        add_btn.addActionListener(
+                e -> {
+                    String task_time_sp[]=add_text_field.getText().split("Time:");
+                    for (String i:task_time_sp){
+                        System.out.println(i);
+                    }
+                    if(task_time_sp.length == 2){
+                        String task_desc=task_time_sp[0].trim();
+                        if (task_desc.equals("")) {
+                            return;
+                        }
+                        String time_deploy=task_time_sp[1].trim();
+                        String chk_time[]=time_deploy.split("-");
+                        if(chk_time.length == 5){
+                            Task t1 = new Task("Task", "Current Time", time_deploy, task_desc, "GEN");
+                            DataBaseOperation.writeTaskData(id, t1);
+                            add_text_field.setText("\t\t         Time:"+now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth()+"-"+now.getHour()+"-"+(now.getMinute()+5));
+//                                homeGUIcp(id,pass);
+//                                jfrm_home.dispose();
+                        }
+                        else{
+                            System.out.println("Time Incompactable");
+                            return;
+                        }
+                    }
+                }
+        );
+
+
+
         container_right.setOpaque(true);
         jfrm_groceries.add(container_right);
 
@@ -159,6 +275,44 @@ public class Groceries_Gui {
         jfrm_groceries.setLayout(null);
         jfrm_groceries.setVisible(true);
 
+    }
+
+    public JPanel scrollData(JFrame super_fr,int id) {
+        JPanel panel_outer = new JPanel();
+        panel_outer.setLayout(new BoxLayout(panel_outer, BoxLayout.Y_AXIS));
+
+        ArrayList<Task> content_task = DataBaseOperation.readTaskData(id);
+
+        for (int i = 0; i < content_task.size(); i++) {
+            JLabel task_title = new JLabel("    " + content_task.get(i).t_title);
+            task_title.setBounds(100, 100, 300, 30);
+            task_title.setFont(new Font("Arial", Font.PLAIN, 20));
+
+            JLabel task_details = new JLabel(content_task.get(i).t_desc);
+            task_details.setBounds(100, 100, 300, 30);
+            task_details.setFont(new Font("Arial", Font.PLAIN, 15));
+
+            JLabel task_time = new JLabel("         " + content_task.get(i).time_of_start + "                     " + content_task.get(i).time_reminder);
+            task_time.setBounds(100, 100, 300, 30);
+            task_time.setFont(new Font("Arial", Font.PLAIN, 10));
+
+            Border blackline = BorderFactory.createLineBorder(Color.black);
+            JPanel panel_inner = new JPanel();
+            panel_inner.setSize(10, 10);
+            panel_inner.setLayout(new BoxLayout(panel_inner, BoxLayout.Y_AXIS));
+//            panel_inner.setBackground(Color.BLUE);
+            panel_inner.setBorder(blackline);
+            panel_inner.add(task_title);
+            panel_inner.add(task_details);
+            panel_inner.add(task_time);
+
+            panel_inner.setMaximumSize(new Dimension(400, 60));
+
+            panel_outer.setMaximumSize(new Dimension(500, 400));
+            panel_outer.add(panel_inner);
+        }
+
+        return panel_outer;
     }
 }
 

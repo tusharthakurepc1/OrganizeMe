@@ -119,7 +119,7 @@ public class LoginGui {
                             alert_tf.setVisible(false);
 //                            Make notification to greet successful login.
                             GUI_T o1=new GUI_T();
-                            o1.notifyAlert("Login Sucessfully Your ID:" +temp_id,"");
+                            o1.notifyAlert("Login Sucessfully","");
                             LoginGui.login_status=true;
                             Home_Gui home=new Home_Gui();
                             int id=Integer.parseInt(id_lbl.getText());
