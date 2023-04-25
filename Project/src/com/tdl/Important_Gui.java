@@ -248,7 +248,7 @@ public class Important_Gui {
                         String time_deploy=task_time_sp[1].trim();
                         String chk_time[]=time_deploy.split("-");
                         if(chk_time.length == 5){
-                            Task t1 = new Task("Task", "Current Time", time_deploy, task_desc, "GEN");
+                            Task t1 = new Task("Task", "Current Time", time_deploy, task_desc, "IMP");
                             DataBaseOperation.writeTaskData(id, t1);
                             add_text_field.setText("\t\t         Time:"+now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth()+"-"+now.getHour()+"-"+(now.getMinute()+5));
 //                                homeGUIcp(id,pass);
@@ -278,7 +278,7 @@ public class Important_Gui {
         JPanel panel_outer = new JPanel();
         panel_outer.setLayout(new BoxLayout(panel_outer, BoxLayout.Y_AXIS));
 
-        ArrayList<Task> content_task = DataBaseOperation.readTaskData(id);
+        ArrayList<Task> content_task = DataBaseOperation.readTaskDataFlag(id,"IMP");
 
         for (int i = 0; i < content_task.size(); i++) {
             JLabel task_title = new JLabel("    " + content_task.get(i).t_title);
