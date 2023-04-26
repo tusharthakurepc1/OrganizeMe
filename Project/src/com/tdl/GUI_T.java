@@ -7,41 +7,63 @@ import java.awt.*;
 public class GUI_T {
 
     public void guiSettingFrame(int id,String pass){
-        JFrame jfrm_set=new JFrame("Settings");
-        jfrm_set.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jfrm_set.setSize(800,620);
-        jfrm_set.setResizable(false);
 
-        JLabel logo=new JLabel("T");
+        Client data = DataBaseOperation.readStampData(id, pass);
+
+        JFrame jfrm_setting=new JFrame("Settings");
+        jfrm_setting.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jfrm_setting.setSize(800,620);
+        jfrm_setting.setResizable(false);
+
+        JLabel logo=new JLabel(""+data.f_name.charAt(0));
         logo.setBounds(100,115,50,50);
         logo.setFont(new Font("Vardana",Font.BOLD,50));
         logo.setHorizontalAlignment(JLabel.CENTER);
         Border b1=BorderFactory.createLineBorder(Color.BLACK);
         logo.setBorder(b1);
-        jfrm_set.add(logo);
+        jfrm_setting.add(logo);
 
-        JLabel name=new JLabel("Tejasvi Kumar Thakur");
+        JLabel name=new JLabel(data.f_name+" "+data.m_name+" "+data.l_name);
         name.setBounds(170,105,2000,50);
         name.setBackground(Color.RED);
         name.setForeground(Color.BLACK);
         name.setFont(new Font("", Font.BOLD, 30));
-        jfrm_set.add(name);
+        jfrm_setting.add(name);
 
-        JLabel tej=new JLabel("tejasvikumar108");
+        JLabel tej=new JLabel("@"+data.username);
         tej.setBounds(175,145,400,25);
         tej.setFont(new Font("", Font.PLAIN, 15));
         tej.setBackground(Color.RED);
         tej.setForeground(Color.BLACK);
-        jfrm_set.add(tej);
+        jfrm_setting.add(tej);
+
+        JButton back_btn=new JButton("Back");
+        back_btn.setBounds(0,0,70,50);
+        back_btn.setFont(new Font("Vardana",Font.PLAIN,15));
+        jfrm_setting.add(back_btn);
+        back_btn.addActionListener(
+                e -> {
+                    Home_Gui home=new Home_Gui();
+                    home.homeGUI(id,pass);
+                    jfrm_setting.dispose();
+                }
+        );
 
 
-        JButton manage_ac;
-        manage_ac=new JButton("Manage Account");
-        manage_ac.setBackground(Color.decode("#E6E6FA"));
-        manage_ac.setForeground(Color.BLACK);
-        manage_ac.setBounds(550,110,150,30);
-        manage_ac.setHorizontalAlignment(SwingConstants.CENTER);
-        jfrm_set.add(manage_ac);
+        JButton save_login_info;
+        save_login_info=new JButton("Save Login Info");
+        save_login_info.setBackground(Color.decode("#E6E6FA"));
+        save_login_info.setForeground(Color.BLACK);
+        save_login_info.setBounds(550,110,150,30);
+        save_login_info.setHorizontalAlignment(SwingConstants.CENTER);
+        jfrm_setting.add(save_login_info);
+        save_login_info.addActionListener(
+                e->{
+                    LoginGui save_info=new LoginGui();
+                    save_info.saveLoginInfo(data.client_id, data.pass);
+                }
+        );
+
 
         JButton Signout;
         Signout=new JButton("Signout");
@@ -49,7 +71,7 @@ public class GUI_T {
         Signout.setForeground(Color.BLACK);
         Signout.setBounds(550,150,150,30);
         Signout.setHorizontalAlignment(SwingConstants.CENTER);
-        jfrm_set.add(Signout);
+        jfrm_setting.add(Signout);
 
 
         JButton Update_Account_Detail;
@@ -59,7 +81,16 @@ public class GUI_T {
         Update_Account_Detail.setFont(new Font("Vardana",Font.PLAIN,20));
         Update_Account_Detail.setBounds(150,250,250,40);
         Update_Account_Detail.setHorizontalAlignment(SwingConstants.CENTER);
-        jfrm_set.add(Update_Account_Detail);
+        jfrm_setting.add(Update_Account_Detail);
+
+        Update_Account_Detail.addActionListener(
+                e->{
+                    GUI_Settings update_sett_frame=new GUI_Settings();
+                    update_sett_frame.updateDetails(data);
+
+                    jfrm_setting.dispose();
+                }
+        );
 
         JButton View_Detail;
         View_Detail=new JButton("View Detail");
@@ -68,7 +99,15 @@ public class GUI_T {
         View_Detail.setFont(new Font("Vardana",Font.PLAIN,20));
         View_Detail.setBounds(150,300,250,40);
         View_Detail.setHorizontalAlignment(SwingConstants.CENTER);
-        jfrm_set.add(View_Detail);
+        jfrm_setting.add(View_Detail);
+
+        View_Detail.addActionListener(
+                e -> {
+                    GUI_Settings display=new GUI_Settings();
+                    display.displayData(data);
+                    jfrm_setting.dispose();
+                }
+        );
 
         JButton Logout;
         Logout=new JButton("Logout");
@@ -77,7 +116,16 @@ public class GUI_T {
         Logout.setFont(new Font("Vardana",Font.PLAIN,20));
         Logout.setBounds(150,350,250,40);
         Logout.setHorizontalAlignment(SwingConstants.CENTER);
-        jfrm_set.add(Logout);
+        jfrm_setting.add(Logout);
+        Logout.addActionListener(
+                e -> {
+                    LoginGui login=new LoginGui();
+                    login.init_Login();
+
+                    jfrm_setting.dispose();
+                }
+        );
+
 
         JButton Reset_Password;
         Reset_Password=new JButton("Reset Password");
@@ -86,12 +134,24 @@ public class GUI_T {
         Reset_Password.setFont(new Font("Vardana",Font.PLAIN,20));
         Reset_Password.setBounds(150,400,250,40);
         Reset_Password.setHorizontalAlignment(SwingConstants.CENTER);
-        jfrm_set.add(Reset_Password);
+        jfrm_setting.add(Reset_Password);
+
+        Reset_Password.addActionListener(
+                e->{
+                    GUI_Settings password_jfrm=new GUI_Settings();
+                    password_jfrm.updatePassword(data);
+
+                    jfrm_setting.dispose();
+                }
+        );
 
 
-        jfrm_set.setLayout(null);
-        jfrm_set.setVisible(true);
+
+
+        jfrm_setting.setLayout(null);
+        jfrm_setting.setVisible(true);
     }
+
 
 
     public void notifyAlert(String msg,String time){
@@ -214,4 +274,3 @@ class Task extends Client{
     }
 
 }
-
