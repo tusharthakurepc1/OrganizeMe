@@ -9,16 +9,15 @@ public class BackEnd {
 
     public static void main(String[] args) {
 
-        Client c1=new Client("User"," ","001",10,"_","+91 xxxxxxxxxx","user123","123");
+        Client c1=new Client("User"," ","005",99,"_","+91 xxxxxxxxxx","user","123");
         Task t1=new Task(c1,"Task 2",null,"2023-4-9-14-54","Check Notify 2","IMP");
 
 //        DataBaseOperation.readAllClientData();
 //        DataBaseOperation.writeTaskData(10004,t1);
 //        DataBaseOperation.checkTaskTimeBg(DataBaseOperation.readTaskData(10004));
-//        DataBaseOperation.writeTaskData(2389,t1);
+
 
     }
-
 
 }
 
@@ -29,7 +28,7 @@ class DataBaseOperation{
         Connection con=null;
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con= DriverManager.getConnection("jdbc:mysql://localhost:3306/tdl_db","root","12345");
+            con= DriverManager.getConnection("jdbc:mysql://localhost:3306/tdl_db","root","epc205");
             System.out.println("Connection Open");
 
         }catch(Exception e){
@@ -243,7 +242,82 @@ class DataBaseOperation{
         return data;
     }
 
+    /*  Update the Client Details with the Client Object.*/
+    public static void updateClientDetails(int id,String pass,Client client_update){
+        Connection con=createConn();
+        Client update_temp=null;
+        try{
+            String query="update client_details set f_name=?,m_name=?,l_name=?,age=?,gender=?,phone_number=?,username=? where c_id = ? and pass =?;";
+            PreparedStatement ps=con.prepareStatement(query);
+            ps.setString(1,client_update.f_name);
+            ps.setString(2,client_update.m_name);
+            ps.setString(3,client_update.l_name);
+            ps.setInt(4,client_update.age);
+            ps.setString(5,client_update.gender);
+            ps.setString(6,client_update.phone_num);
+            ps.setString(7,client_update.username);
+
+            ps.setInt(8,id);
+            ps.setString(9,pass);
+
+            ps.executeUpdate();
+
+            System.out.println("Updated Sucessfully");
+
+        }catch(SQLException e){
+            System.out.println("Update Exception");
+        }catch(Exception e) {
+            System.out.println("Other Exception");
+//            System.out.println(e);
+        }finally {
+            try{
+                if(!con.isClosed()){
+                    con.close();
+                    System.out.println("Connection Closed");
+                }
+            }
+            catch(Exception e2) {
+                System.out.println(e2);
+            }
+        }
+    }
+
+    /*  Update the password of the Client*/
+    public static void updateClientPassword(int id,String pass,String new_pass){
+        Connection con=createConn();
+        Client update_temp=null;
+        try{
+            String query="update client_details set pass=? where c_id = ? and pass =?;";
+            PreparedStatement ps=con.prepareStatement(query);
+            ps.setString(1,new_pass);
+            ps.setInt(2,id);
+            ps.setString(3,pass);
+
+
+            ps.executeUpdate();
+
+            System.out.println("Updated Password Sucessfully");
+
+        }catch(SQLException e){
+            System.out.println("Update Exception");
+        }catch(Exception e) {
+            System.out.println("Other Exception");
+//            System.out.println(e);
+        }finally {
+            try{
+                if(!con.isClosed()){
+                    con.close();
+                    System.out.println("Connection Closed");
+                }
+            }
+            catch(Exception e2) {
+                System.out.println(e2);
+            }
+        }
+    }
+
     /*    Return the ArrayList of all the task which belongs to the provided client_id. */
+
     public static ArrayList<Task> readTaskData(int c_id){
         Connection con=createConn();
         Statement statement=null;
@@ -281,8 +355,8 @@ class DataBaseOperation{
         }
         return data;
     }
-
     /*    Return the Arraylist of all the task which belongs to the given client_id and task flag */
+
     public static ArrayList<Task> readTaskDataFlag(int c_id,String flag){
         Connection con=createConn();
         Statement statement=null;
@@ -318,9 +392,9 @@ class DataBaseOperation{
         return data;
     }
 
-
     /*    Create a thread and run when the login_status value is false
-    *     and check the time_reminder with the system call and generate the notification. */
+     *     and check the time_reminder with the system call and generate the notification. */
+
     public static void checkTaskTimeBg(ArrayList<Task> data){
         Thread checktasktime_thread=new Thread(
                 ()->{
@@ -356,6 +430,7 @@ class DataBaseOperation{
 
         checktasktime_thread.start();
     }
+
 
 
 }

@@ -3,12 +3,8 @@ package com.tdl;
 import com.mysql.cj.log.Log;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-//import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.*;
 
 /*
 Gui Resolution    800x620.
@@ -380,6 +376,69 @@ Submit Button
 
         jfrm_signup.setLayout(null);
         jfrm_signup.setVisible(true);
+    }
+
+    public void saveLoginInfo(int id,String pass){
+        File file=new File("./src/login_info.txt");
+        try{
+            if(!file.exists()){
+                file.createNewFile();
+            }
+        }catch(IOException fnfe){
+            System.out.println(fnfe);
+        }
+
+        String write_login_credential=Integer.toString(id)+"/TDL_PASS/"+pass;
+        try{
+            FileWriter fio_write=new FileWriter(file);
+            fio_write.write(write_login_credential);
+            fio_write.close();
+            System.out.println("Login Save Credential");
+
+        }catch(IOException fnfe1){
+            System.out.println(fnfe1);
+        }
+    }
+
+    public void retriveLoginInfo(){
+        File file=new File("./src/login_info.txt");
+        try{
+            if(!file.exists()){
+                file.createNewFile();
+                LoginGui login=new LoginGui();
+                login.init_Login();
+            }
+        }catch(IOException fnfe){
+            System.out.println(fnfe);
+        }
+
+        try{
+            StringBuilder login_credential=new StringBuilder("");
+            FileReader read_login_credential=new FileReader(file);
+
+            int i=0;
+            while ((i = read_login_credential.read()) != -1)
+                login_credential.append((char)i);
+
+
+            String []login_split=login_credential.toString().split("/TDL_PASS/");
+
+            if(login_split.length==2 && DataBaseOperation.readUserPass(Integer.parseInt(login_split[0]),login_split[1])){
+                Home_Gui home=new Home_Gui();
+                home.homeGUI(Integer.parseInt(login_split[0]),login_split[1]);
+            }
+            else{
+                LoginGui login=new LoginGui();
+                login.init_Login();
+            }
+
+
+
+        }catch(IOException fnfe1){
+            System.out.println(fnfe1);
+        }
+
+
     }
 
 }

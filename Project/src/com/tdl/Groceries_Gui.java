@@ -1,4 +1,5 @@
 package com.tdl;
+import com.tdl.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
