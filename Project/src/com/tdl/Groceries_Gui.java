@@ -5,9 +5,12 @@ import com.tdl.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Groceries_Gui {
@@ -293,8 +296,69 @@ public class Groceries_Gui {
         LocalDateTime time_now=LocalDateTime.now();
         for (int i = 0; i < content_task.size(); i++) {
             String time_spl[]=content_task.get(i).time_reminder.split("-");
-            if(Integer.parseInt(time_spl[0]) < time_now.getYear() || Integer.parseInt(time_spl[1]) < time_now.getMonthValue() || Integer.parseInt(time_spl[2]) < time_now.getDayOfMonth() || Integer.parseInt(time_spl[3]) < time_now.getHour() || Integer.parseInt(time_spl[4]) < time_now.getMinute()) {
-                continue;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            try{
+                String temp_month,temp_day;
+                if(time_now.getMonthValue() < 10){
+                    temp_month="0"+time_now.getMonthValue();
+                }
+                else{
+                    temp_month=""+time_now.getMonthValue();
+                }
+                if(time_now.getDayOfMonth() < 10){
+                    temp_day="0"+time_now.getDayOfMonth();
+                }
+                else{
+                    temp_day=""+time_now.getDayOfMonth();
+                }
+                if(Integer.parseInt(time_spl[1]) < 10){
+                    time_spl[1]="0"+time_spl[1];
+                }
+                if(Integer.parseInt(time_spl[2]) < 10){
+                    time_spl[2]="0"+time_spl[2];
+                }
+                Date date1 = sdf.parse(time_spl[0]+"-"+time_spl[1]+"-"+time_spl[2]);
+                Date date2 = sdf.parse(time_now.getYear()+"-"+temp_month+"-"+temp_day);
+                int compare_time = date1.compareTo(date2);
+
+
+//                System.out.println(time_spl[0]+" "+time_spl[1]);
+                if(compare_time < 0){
+                    continue;
+                }
+                else{
+                    String temp_min="",temp_hour="";
+                    if(Integer.parseInt(time_spl[3]) < 10){
+                        time_spl[3]="0"+time_spl[3];
+                    }
+                    if(Integer.parseInt(time_spl[4]) < 10){
+                        time_spl[4]="0"+time_spl[4];
+                    }
+                    if(time_now.getHour() < 10){
+                        temp_hour="0"+time_now.getHour();
+                    }
+                    else{
+                        temp_hour=""+time_now.getHour();
+                    }
+                    if(time_now.getMinute() < 10){
+                        temp_min="0"+time_now.getMinute();
+                    }
+                    else{
+                        temp_min=""+time_now.getMinute();
+                    }
+//                    System.out.println(temp_hour+" "+temp_min);
+//                    System.out.println(time_spl[3]+":"+time_spl[4]+":00");
+                    LocalTime time1 = LocalTime.parse(time_spl[3]+":"+time_spl[4]+":00");
+                    LocalTime time2 = LocalTime.parse(temp_hour+":"+temp_min+":00");
+
+                    int compare_time2=time1.compareTo(time2);
+                    if(compare_time2 < 0){
+                        continue;
+                    }
+                }
+
+            }catch(Exception time){
+                System.out.println("Time Format Error");
             }
             JLabel task_title = new JLabel("    " + content_task.get(i).t_title);
             task_title.setBounds(100, 100, 300, 30);
