@@ -152,6 +152,7 @@ public class Groceries_Gui {
         Thread task_update=new Thread(
                 ()->{
                     JScrollPane jsp;
+                    boolean initial_sleep=true;
                     while(true) {
                         try {
                             if(thread_status.get()){
@@ -163,8 +164,13 @@ public class Groceries_Gui {
                             jfrm_groceries.add(jsp);
 
                             scrollData(jfrm_groceries,id);
-                            System.out.println("scroll call");
-                            Thread.sleep(500);
+                            if(initial_sleep){
+                                Thread.sleep(500);
+                                initial_sleep=false;
+                            }
+                            else{
+                                Thread.sleep(3000);
+                            }
                         } catch (Exception e) {
                             System.out.println("Task Update Exception.");
                             return;
@@ -283,8 +289,12 @@ public class Groceries_Gui {
         panel_outer.setLayout(new BoxLayout(panel_outer, BoxLayout.Y_AXIS));
 
         ArrayList<Task> content_task = DataBaseOperation.readTaskDataFlag(id,"GROC");
-
+        LocalDateTime time_now=LocalDateTime.now();
         for (int i = 0; i < content_task.size(); i++) {
+            String time_spl[]=content_task.get(i).time_reminder.split("-");
+            if(Integer.parseInt(time_spl[0]) < time_now.getYear() || Integer.parseInt(time_spl[1]) < time_now.getMonthValue() || Integer.parseInt(time_spl[2]) < time_now.getDayOfMonth() || Integer.parseInt(time_spl[3]) < time_now.getHour() || Integer.parseInt(time_spl[4]) < time_now.getMinute()) {
+                continue;
+            }
             JLabel task_title = new JLabel("    " + content_task.get(i).t_title);
             task_title.setBounds(100, 100, 300, 30);
             task_title.setFont(new Font("Arial", Font.PLAIN, 20));
