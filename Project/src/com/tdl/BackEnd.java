@@ -28,7 +28,7 @@ class DataBaseOperation{
         Connection con=null;
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con= DriverManager.getConnection("jdbc:mysql://localhost:3306/tdl_db","root","12345");
+            con= DriverManager.getConnection("jdbc:mysql://localhost:3306/tdl_db","root","epc205");
             System.out.println("Connection Open");
 
         }catch(Exception e){
@@ -317,7 +317,6 @@ class DataBaseOperation{
     }
 
     /*    Return the ArrayList of all the task which belongs to the provided client_id. */
-
     public static ArrayList<Task> readTaskData(int c_id){
         Connection con=createConn();
         Statement statement=null;
@@ -355,8 +354,8 @@ class DataBaseOperation{
         }
         return data;
     }
-    /*    Return the Arraylist of all the task which belongs to the given client_id and task flag */
 
+    /*    Return the Arraylist of all the task which belongs to the given client_id and task flag */
     public static ArrayList<Task> readTaskDataFlag(int c_id,String flag){
         Connection con=createConn();
         Statement statement=null;
@@ -391,46 +390,5 @@ class DataBaseOperation{
         }
         return data;
     }
-
-    /*    Create a thread and run when the login_status value is false
-     *     and check the time_reminder with the system call and generate the notification. */
-
-    public static void checkTaskTimeBg(ArrayList<Task> data){
-        Thread checktasktime_thread=new Thread(
-                ()->{
-                    while(true) {
-                        if (LoginGui.login_status == false) {
-                            return;
-                        }
-                        try {
-                            LocalDateTime date = LocalDateTime.now();
-
-                            for (int i = 0; i < data.size(); i++) {
-
-                                String time_main = data.get(i).time_reminder;
-                                String time_split[] = time_main.split("-");
-//
-                                if (Integer.parseInt(time_split[0]) == date.getYear() && Integer.parseInt(time_split[1]) == date.getMonthValue() && Integer.parseInt(time_split[2]) == date.getDayOfMonth() && Integer.parseInt(time_split[3]) == date.getHour() && Integer.parseInt(time_split[4]) == date.getMinute()) {
-                                    System.out.println("Task Time Match Notify Deploy");
-                                    GUI_T notify_obj = new GUI_T();
-                                    notify_obj.notifyAlert(data.get(i).t_desc, "");
-                                    Thread.sleep(59050);
-                                    break;
-                                }
-                            }
-
-                            Thread.sleep(800);
-                        } catch (Exception e) {
-                            System.out.println("Notification Module Exception.");
-                            return;
-                        }
-                    }
-                }
-        );
-
-        checktasktime_thread.start();
-    }
-
-
 
 }

@@ -1,6 +1,5 @@
 package com.tdl;
 
-import com.mysql.cj.log.Log;
 
 import javax.swing.*;
 import java.awt.*;
@@ -394,6 +393,8 @@ Submit Button
             fio_write.write(write_login_credential);
             fio_write.close();
             System.out.println("Login Save Credential");
+            GUI_T msg=new GUI_T();
+            msg.notifyAlert("Login Saved","");
 
         }catch(IOException fnfe1){
             System.out.println(fnfe1);
@@ -439,6 +440,31 @@ Submit Button
         }
 
 
+    }
+
+    public void removeLoginInfo(){
+        File file=new File("./src/login_info.txt");
+        try{
+            if(!file.exists()){
+                file.createNewFile();
+                LoginGui login=new LoginGui();
+                login.init_Login();
+            }
+        }catch(IOException fnfe){
+            System.out.println(fnfe);
+        }
+
+        try{
+            FileWriter fio_write=new FileWriter(file);
+            fio_write.write("");
+            fio_write.close();
+            System.out.println("Remove Login Info");
+            GUI_T msg=new GUI_T();
+            msg.notifyAlert("Login Removed","");
+
+        }catch(IOException fnfe1){
+            System.out.println(fnfe1);
+        }
     }
 
 }
