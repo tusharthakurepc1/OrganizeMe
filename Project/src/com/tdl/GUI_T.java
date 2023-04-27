@@ -65,13 +65,20 @@ public class GUI_T {
         );
 
 
-        JButton Signout;
-        Signout=new JButton("Signout");
-        Signout.setBackground(Color.decode("#E6E6FA"));
-        Signout.setForeground(Color.BLACK);
-        Signout.setBounds(550,150,150,30);
-        Signout.setHorizontalAlignment(SwingConstants.CENTER);
-        jfrm_setting.add(Signout);
+        JButton remove_info;
+        remove_info=new JButton("Remove Login Info");
+        remove_info.setBackground(Color.decode("#E6E6FA"));
+        remove_info.setForeground(Color.BLACK);
+        remove_info.setBounds(550,150,150,30);
+        remove_info.setHorizontalAlignment(SwingConstants.CENTER);
+        jfrm_setting.add(remove_info);
+
+        remove_info.addActionListener(
+                e->{
+                    LoginGui remove_login=new LoginGui();
+                    remove_login.removeLoginInfo();
+                }
+        );
 
 
         JButton Update_Account_Detail;
