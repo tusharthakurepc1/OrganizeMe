@@ -320,7 +320,6 @@ public class Important_Gui {
                 int compare_time = date1.compareTo(date2);
 
 
-//                System.out.println(time_spl[0]+" "+time_spl[1]);
                 if(compare_time < 0){
                     continue;
                 }
@@ -344,13 +343,13 @@ public class Important_Gui {
                     else{
                         temp_min=""+time_now.getMinute();
                     }
-//                    System.out.println(temp_hour+" "+temp_min);
-//                    System.out.println(time_spl[3]+":"+time_spl[4]+":00");
+
                     LocalTime time1 = LocalTime.parse(time_spl[3]+":"+time_spl[4]+":00");
                     LocalTime time2 = LocalTime.parse(temp_hour+":"+temp_min+":00");
 
                     int compare_time2=time1.compareTo(time2);
-                    if(compare_time2 < 0){
+
+                    if(compare_time==0 && compare_time2 < 0){
                         continue;
                     }
                 }

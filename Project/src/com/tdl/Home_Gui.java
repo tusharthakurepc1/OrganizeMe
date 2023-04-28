@@ -154,6 +154,7 @@ public class Home_Gui {
         Thread task_update=new Thread(
                 ()->{
                     JScrollPane jsp;
+                    boolean initial_sleep=true;
                     while(true) {
                         try {
                             if(thread_status.get()){
@@ -164,8 +165,13 @@ public class Home_Gui {
                             jsp.setBackground(Color.BLACK);
                             jfrm_home.add(jsp);
 
-                            scrollData(jfrm_home,id);
-                            Thread.sleep(500);
+                            if(initial_sleep){
+                                Thread.sleep(500);
+                                initial_sleep=false;
+                            }
+                            else{
+                                Thread.sleep(3000);
+                            }
                         } catch (Exception e) {
                             System.out.println("Task Update Exception.");
                             return;
@@ -182,20 +188,14 @@ public class Home_Gui {
                 ()->{
                     DateTimeFormatter dtf_temp;
                     LocalDateTime now_temp;
-                    boolean initial_sleep=true;
+
                     while(true) {
                         try {
                             dtf_temp = DateTimeFormatter.ofPattern("EEEE, dd MMM YYYY");
                             now_temp = LocalDateTime.now();
                             dateTime.setText(dtf_temp.format(now_temp));
 
-                            if(initial_sleep){
-                                Thread.sleep(500);
-                                initial_sleep=false;
-                            }
-                            else{
-                                Thread.sleep(3000);
-                            }
+                            Thread.sleep(60000);
                         } catch (Exception e) {
                             System.out.println("Task Update Exception.");
                             return;
@@ -283,8 +283,6 @@ public class Home_Gui {
     }
 
 
-
-
     public JPanel scrollData(JFrame super_fr,int id) {
         JPanel panel_outer = new JPanel();
         panel_outer.setLayout(new BoxLayout(panel_outer, BoxLayout.Y_AXIS));
@@ -319,7 +317,6 @@ public class Home_Gui {
                 int compare_time = date1.compareTo(date2);
 
 
-//                System.out.println(time_spl[0]+" "+time_spl[1]);
                 if(compare_time < 0){
                     continue;
                 }
@@ -343,13 +340,13 @@ public class Home_Gui {
                     else{
                         temp_min=""+time_now.getMinute();
                     }
-//                    System.out.println(temp_hour+" "+temp_min);
-//                    System.out.println(time_spl[3]+":"+time_spl[4]+":00");
+
                     LocalTime time1 = LocalTime.parse(time_spl[3]+":"+time_spl[4]+":00");
                     LocalTime time2 = LocalTime.parse(temp_hour+":"+temp_min+":00");
 
                     int compare_time2=time1.compareTo(time2);
-                    if(compare_time2 < 0){
+
+                    if(compare_time==0 && compare_time2 < 0){
                         continue;
                     }
                 }
