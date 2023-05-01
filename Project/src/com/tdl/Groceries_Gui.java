@@ -30,7 +30,7 @@ public class Groceries_Gui {
         container_left.setBounds(10,10,300,560);
         container_left.setBackground(Color.decode("#33334d"));
 
-        JLabel icon=new JLabel("M");
+        JLabel icon=new JLabel(""+data.f_name.charAt(0));
         icon.setBounds(20,25,50,50);
         icon.setForeground(Color.white);
         icon.setOpaque(true);
@@ -42,14 +42,14 @@ public class Groceries_Gui {
         jfrm_groceries.add(icon);
 
 
-        JLabel name=new JLabel("Manasvi Kumar Thakur");
+        JLabel name=new JLabel(data.f_name+" "+data.m_name+" "+data.l_name);
         name.setBounds(20,7,280,80);
         name.setForeground(Color.white);
         name.setFont(new Font("Verdana", Font.BOLD, 17));
         name.setHorizontalAlignment(SwingConstants.RIGHT);
         jfrm_groceries.add(name);
 
-        JLabel email=new JLabel("manasvikumar108@gmail.com");
+        JLabel email=new JLabel(data.username);
         email.setBounds(20,25,250,80);
         email.setForeground(Color.GRAY);
         email.setFont(new Font("Rockwell", Font.PLAIN, 12));

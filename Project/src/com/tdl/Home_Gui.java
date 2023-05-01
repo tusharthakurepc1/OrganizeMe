@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Home_Gui {
+public class Home_Gui { 
 
     public void homeGUI(int id, String pass) {
         AtomicBoolean thread_status= new AtomicBoolean(false);
