@@ -1,24 +1,4 @@
-Doc v1.0.0
-
-
-Git Commands:
-
-
-git init							//For Initialize.
-git log
-git add .
-git commit -m "comment"
-
-git branch -M master
-git remote add origin -----repo url------
-git reset --hard						//Reset to the previous Push Ver.
-
-git push -u origin master				//For Push.
-git pull orgin master					//For Pull.
-
-
-
-//Forcefully pull
-git fetch
-git reset --hard HEAD
-git merge origin/master	
+# **OrganizeMe** is a Java application which is categorized you task into certain categories and remind you if you done some task.<br>
+Categories that **OrganizeMe** includes  General, Important, Planned, Groceries<br>
+OrganizeMe having client information once you create an account and you can save you login credentials and also update or change your data when you need.<br>
+**OrganizeMe** having a user friendly UI that help you to use it wisely<br>
